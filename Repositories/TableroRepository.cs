@@ -2,35 +2,29 @@ using EspacioInterfazTablero;
 using EspacioTablero;
 using EspacioUsuario;
 
-public class TableroRepository : ITableroRepository
-{
-    public Tablero Create()
-    {
+public class TableroRepository : ITableroRepository {
+    public Tablero Create() {
         throw new NotImplementedException();
     }
 
-    public void DeleteTablero(int id)
-    {
+    public List<Tablero> GetAll() {
         throw new NotImplementedException();
     }
 
-    public Tablero GetTablero(int id)
-    {
+    public Tablero GetById(int id) {
         throw new NotImplementedException();
     }
 
-    public List<Tablero> ListTableroByUser(int idUsuario)
-    {
+    public List<Tablero> GetByUserId(int idUsuario) {
         throw new NotImplementedException();
     }
 
-    public List<Tablero> ListTableros()
-    {
+    public void Remove(int id) {
         throw new NotImplementedException();
     }
 
-    public void ModifyTablero(int id, Usuario usuario)
-    {
+    public void Update(int id, Usuario usuario) {
         throw new NotImplementedException();
     }
+    
 }

@@ -5,9 +5,10 @@ namespace EspacioInterfazTablero;
 
 public interface ITableroRepository {
     public Tablero Create();
-    public void ModifyTablero(int id, Usuario usuario);
-    public Tablero GetTablero(int id);
-    public List<Tablero> ListTableros();
-    public List<Tablero> ListTableroByUser(int idUsuario);
-    public void DeleteTablero(int id);
+    public void Update(int id, Usuario usuario);
+    public Tablero GetById(int id);
+    public List<Tablero> GetAll();
+    public List<Tablero> GetByUserId(int idUsuario);
+    public void Remove(int id);
+    
 }

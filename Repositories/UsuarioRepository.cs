@@ -1,30 +1,25 @@
 using EspacioInterfazUsuario;
 using EspacioUsuario;
 
-public class UsuarioRepository : IUsuarioRepository
-{
-    public void Create(Usuario usuario)
-    {
+public class UsuarioRepository : IUsuarioRepository {
+    public void Create(Usuario usuario) {
         throw new NotImplementedException();
     }
 
-    public void DeleteUsuario(int id)
-    {
+    public List<Usuario> GetAll() {
         throw new NotImplementedException();
     }
 
-    public Usuario GetUsuario(int id)
-    {
+    public Usuario GetById(int id) {
         throw new NotImplementedException();
     }
 
-    public List<Usuario> ListUsuarios()
-    {
+    public void Remove(int id) {
         throw new NotImplementedException();
     }
 
-    public void Modify(int id, Usuario usuaerio)
-    {
+    public void Update(int id, Usuario usuario) {
         throw new NotImplementedException();
     }
+
 }
