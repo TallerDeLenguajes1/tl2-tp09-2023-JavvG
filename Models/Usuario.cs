@@ -2,10 +2,10 @@ namespace EspacioUsuario;
 
 public class Usuario {
 
-    private int idUsuario;
-    private string nombreUsuario;
+    private int id;
+    private string nombre;
 
-    public int IdUsuario { get => idUsuario; set => idUsuario = value; }
-    public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
+    public int Id { get => id; set => id = value; }
+    public string Nombre { get => nombre; set => nombre = value; }
 
 }
