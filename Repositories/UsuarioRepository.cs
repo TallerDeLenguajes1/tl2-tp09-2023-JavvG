@@ -24,7 +24,9 @@ public class UsuarioRepositorio : IUsuarioRepository {
             command.ExecuteNonQuery();      // Ejecuta comandos como las instrucciones INSERT, DELETE, UPDATE.
 
             connection.Close();     // Fin de conexión con la BD
+
         }
+
     }
 
 
@@ -44,6 +46,7 @@ public class UsuarioRepositorio : IUsuarioRepository {
             command.ExecuteNonQuery();
             
             connection.Close();
+
         }
 
     }
@@ -74,13 +77,14 @@ public class UsuarioRepositorio : IUsuarioRepository {
             }
 
             connection.Close();
+
         }
 
         return usuarios;
 
     }
 
-    public Usuario GetUsuario(int id) {
+    public Usuario GetById(int id) {
 
         List<Usuario> usuarios = new();
         
@@ -107,12 +111,9 @@ public class UsuarioRepositorio : IUsuarioRepository {
             command.ExecuteNonQuery();
 
             connection.Close();
+            
         }
 
     }
-
-    public Usuario GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
