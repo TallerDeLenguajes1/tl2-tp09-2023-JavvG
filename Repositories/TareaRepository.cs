@@ -36,22 +36,111 @@ public class TareaRepository : ITareaRepository {
     }
 
     public List<Tarea> GetAll(int idTablero) {
-        throw new NotImplementedException();
+        
+        List<Tarea> tareas = new();
+
+        var query = @"SELECT * FROM Tarea;";
+
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
+
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            using (var reader = command.ExecuteReader()) {
+
+                while (reader.Read()) {
+
+                    var tarea = new();
+
+                    tarea.Id = Convert.ToInt32(reader["id"]);
+                    tarea.idTablero = Convert.ToInt32(reader["id_tablero"]);
+                    tarea.Nombre = reader["nombre"].ToString();
+                    tarea.Estado = reader["estado"];        // Revisar (!)
+                    tarea.Descripcion = reader["descripcion"].ToString();
+                    tarea.Color = reader["color"].ToString();
+                    tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+
+                    tareas.Add(tarea);
+
+                }
+
+            }
+
+            connection.Close();
+
+        }
+
+        return tareas;
+
     }
 
     public Tarea GetById(int id) {
-        throw new NotImplementedException();
+        
+        List<Tarea> tareas = new();
+
+        tareas = GetAll();
+
+        var tareaBuscada = tareas.FirstOrDefault(T => T.Id == id);
+
+        return tareaBuscada;
+
     }
 
     public List<Tarea> GetByUsuarioId(int idUsuario) {
-        throw new NotImplementedException();
+        
+        List<Tarea> tareas = new();
+
+        tareas = GetAll();
+
+        var tareaBuscada = tareas.FirstOrDefault(T.IdUsuarioAsignado == id);
+
+        return tareaBuscada;
+
     }
 
-    public void Remove(int idTarea) {
-        throw new NotImplementedException();
+    public void Delete(int idTarea) {
+        
+        var query = @"DELETE FROM Tarea WHERE Tarea.id = (@id_buscado);";
+
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
+
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@id_buscado", idTarea));
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
+
     }
 
     public void Update(int id, Tarea tarea) {
-        throw new NotImplementedException();
+        
+        var query = @"UPDATE Tarea SET id_tablero = @nuevo_id_talero, nombre = @nuevo_nombre, estado = @nuevo_estado, descripcion = @nueva_descripcion, color = @nuevo_color, id_usuario_asignado = @nuevo_id_usuario;";
+
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
+
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@nuevo_id_talero", tarea.IdTablero));
+            command.Parameters.Add(new SQLiteParameter("@nuevo_nombre", tarea.Nombre));
+            command.Parameters.Add(new SQLiteParameter("@nuevo_estado", tarea.Estado));     // Revisar (!)
+            command.Parameters.Add(new SQLiteParameter("@nueva_descripcion", tarea.Descripcion));
+            command.Parameters.Add(new SQLiteParameter("@nuevo_color", tarea.Color));
+            command.Parameters.Add(new SQLiteParameter("@nuevo_id_usuario", tarea.IdUsuarioAsignado));
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
+
     }
 }

@@ -9,7 +9,7 @@ public interface ITareaRepository {
     public Tarea GetById(int id);
     public List<Tarea> GetByUsuarioId(int idUsuario);
     public List<Tarea> GetAll(int idTablero);
-    public void Remove(int idTarea);
+    public void Delete(int idTarea);
     public void Assign(int idUsuario, int idTarea);
 
 }

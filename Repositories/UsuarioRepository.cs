@@ -8,7 +8,9 @@ using EspacioInterfazUsuario;
 
 
 public class UsuarioRepositorio : IUsuarioRepository {
+
     private readonly string connectionString = "Data Source=DB/kanban.db;Cache=Shared";
+
     public void Create(Usuario usuario) {
 
         var query = @"INSERT INTO Usuario (nombre_de_usuario) VALUES (@nombre_de_usuario);";      // Consulta SQL
@@ -28,7 +30,6 @@ public class UsuarioRepositorio : IUsuarioRepository {
         }
 
     }
-
 
     public void Update(int id, Usuario usuario) {
 
@@ -73,6 +74,7 @@ public class UsuarioRepositorio : IUsuarioRepository {
                     usuario.Nombre = reader["nombre_de_usuario"].ToString();
 
                     usuarios.Add(usuario);
+                    
                 }
             }
 
