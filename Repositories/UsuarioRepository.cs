@@ -7,7 +7,7 @@ using EspacioUsuario;
 using EspacioInterfazUsuario;
 
 
-public class UsuarioRepositorio : IUsuarioRepository {
+public class UsuarioRepository : IUsuarioRepository {
 
     private readonly string connectionString = "Data Source=DB/kanban.db;Cache=Shared";
 

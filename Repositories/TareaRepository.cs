@@ -32,7 +32,9 @@ public class TareaRepository : ITareaRepository {
     }
 
     public Tarea Create(int idTablero) {
-        throw new NotImplementedException();
+
+        //implementar
+
     }
 
     public List<Tarea> GetAll(int idTablero) {
