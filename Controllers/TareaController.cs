@@ -26,30 +26,28 @@ public class TareaController : ControllerBase {
     }
 
     [HttpPut("api/Tarea/{idTarea}/CambiarNombre")]
-    public ActionResult<Tarea> UpdateName(int idTarea, Tarea tarea) {
+    public ActionResult<Tarea> UpdateName(int idTarea, string nombre) {
+
+        Tarea tarea = tareaRepository.GetById(idTarea);
+
+        tarea.Nombre = nombre;
 
         tareaRepository.Update(idTarea, tarea);
 
-        if(tarea != null) {
-            return Ok(tarea);
-        }
-        else {
-            return BadRequest("(!) No se ha podido actualizar la tarea.");
-        }
+        return Ok($"El nombre de la tarea se ha modificado exitosamente. Nuevo nombre: {tarea.Nombre}.");
 
     }
 
     [HttpPut("api/Tarea/{idTarea}/Estado/{tarea.Estado}/CambiarEstado")]
-    public ActionResult<Tarea> UpdateStatus(int idTarea, Tarea tarea) {
+    public ActionResult<Tarea> UpdateStatus(int idTarea, EstadoTarea estado) {
+
+        Tarea tarea = tareaRepository.GetById(idTarea);
+
+        tarea.Estado = estado;
 
         tareaRepository.Update(idTarea, tarea);
 
-        if(tarea != null) {
-            return Ok(tarea);
-        }
-        else {
-            return BadRequest("(!) No se ha podido actualizar el estado de la tarea.");
-        }
+        return Ok($"El estado de la tarea se ha modificado exitosamente. Nuevo estado: {tarea.Estado}.");
 
     }
 

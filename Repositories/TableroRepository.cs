@@ -1,3 +1,4 @@
+using System.Data.SQLite;
 using EspacioInterfazTablero;
 using EspacioTablero;
 using EspacioUsuario;
@@ -26,11 +27,13 @@ public class TableroRepository : ITableroRepository {
 
         }
 
+        return tablero;
+
     }
 
     public List<Tablero> GetAll() {
 
-        List<Talero> tableros = new();
+        List<Tablero> tableros = new();
         
         var query = @"SELECT * FROM Tablero;";
 
@@ -83,9 +86,9 @@ public class TableroRepository : ITableroRepository {
 
         tableros = GetAll();
 
-        var tableroBuscado = tableros.FirstOrDefault(T => T.IdUsuarioPropietario == idUsuario);
+        List<Tablero> tablerosBuscados = tableros.FindAll(T => T.IdUsuarioPropietario == idUsuario);
 
-        return tableroBuscado;
+        return tablerosBuscados;
 
     }
 

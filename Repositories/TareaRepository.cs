@@ -59,7 +59,7 @@ public class TareaRepository : ITareaRepository {
     }
 
     public List<Tarea> GetAll() {
-        
+
         List<Tarea> tareas = new();
 
         var query = @"SELECT * FROM Tarea;";
@@ -275,7 +275,7 @@ public class TareaRepository : ITareaRepository {
 
             command.Parameters.Add(new SQLiteParameter("@nuevo_id_talero", tarea.IdTablero));
             command.Parameters.Add(new SQLiteParameter("@nuevo_nombre", tarea.Nombre));
-            command.Parameters.Add(new SQLiteParameter("@nuevo_estado", tarea.Estado));     // Revisar (!)
+            command.Parameters.Add(new SQLiteParameter("@nuevo_estado", tarea.Estado));
             command.Parameters.Add(new SQLiteParameter("@nueva_descripcion", tarea.Descripcion));
             command.Parameters.Add(new SQLiteParameter("@nuevo_color", tarea.Color));
             command.Parameters.Add(new SQLiteParameter("@nuevo_id_usuario", tarea.IdUsuarioAsignado));

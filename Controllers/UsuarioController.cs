@@ -26,16 +26,15 @@ public class UsuarioController : ControllerBase {
     }
 
     [HttpPut("api/usuario/{idUser}/CambiarNombre")] 
-    public ActionResult<Usuario> Update(int idUser, Usuario user) {
+    public ActionResult<Usuario> Update(int idUser, string nombre) {
 
-        usuarioRepository.Update(idUser, user);
+        Usuario usuario = usuarioRepository.GetById(idUser);
 
-        if(user != null) {
-            return Ok(user);
-        }
-        else {
-            return BadRequest("(!) No se ha podido actualizar el usuario.");
-        }
+        usuario.Nombre = nombre;
+
+        usuarioRepository.Update(idUser, usuario);
+
+        return Ok($"El nombre del usuario se ha modificado exitosamente. Nuevo nombre: {usuario.Nombre}.");
 
     }
 
@@ -67,12 +66,12 @@ public class UsuarioController : ControllerBase {
 
     }
 
-    /* [HttpDelete("api/usuario/{idUser}/eliminar")]
+    [HttpDelete("api/usuario/{idUser}/Eliminar")]
     public ActionResult Delete(int idUser) {
 
         usuarioRepository.Delete(idUser);
         return Ok(" Eliminado exitosamente.");
         
-    } */
+    }
 
 }
