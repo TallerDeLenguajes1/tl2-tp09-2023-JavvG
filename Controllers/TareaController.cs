@@ -19,7 +19,7 @@ public class TareaController : ControllerBase {
 
     // Endpoints
   
-    [HttpPost("api/Tarea")]
+    [HttpPost("api/Tarea/CrearTarea")]
     public ActionResult<Tarea> Create(int idTablero, Tarea tarea) {
         tareaRepository.Create(idTablero, tarea);
         return Ok("La tarea se ha creado exitosamente.");
@@ -38,7 +38,7 @@ public class TareaController : ControllerBase {
 
     }
 
-    [HttpPut("api/Tarea/{idTarea}/Estado/{tarea.Estado}/CambiarEstado")]
+    [HttpPut("api/Tarea/{idTarea}/Estado/{estado}/CambiarEstado")]
     public ActionResult<Tarea> UpdateStatus(int idTarea, EstadoTarea estado) {
 
         Tarea tarea = tareaRepository.GetById(idTarea);
@@ -57,18 +57,18 @@ public class TareaController : ControllerBase {
         return Ok("La tarea se ha eliminado exitosamente.");
     }
 
-    [HttpGet("api/tarea/{tarea.Estado}")]
+    [HttpGet("api/tarea/{estado}ObtenerTareasPorEstado")]
     public ActionResult<int> GetTaskByStatus(EstadoTarea estado) {
 
         List<Tarea> tareas = tareaRepository.GetAll();
 
         List<Tarea> tareasFiltradas = tareas.FindAll(T => T.Estado == estado);
 
-        if(tareasFiltradas != null) {
-            return Ok($"Se encontraron {tareasFiltradas.Count()} tareas con el estado {estado}.");
+        if(tareasFiltradas == null) {
+            return BadRequest("(!) No se econtraron tareas.");
         }
         else {
-            return BadRequest("(!) No se econtraron tareas.");
+            return Ok($"Se encontraron {tareasFiltradas.Count()} tareas con el estado {estado}.");
         }
 
     }
@@ -78,11 +78,11 @@ public class TareaController : ControllerBase {
 
         List<Tarea> tareas = tareaRepository.GetByUsuarioId(idUsuario);
 
-        if(tareas != null) {
-            return tareas;
+        if(tareas == null) {
+            return BadRequest($"(!) No se encontraron tareas asignadas al usuario ID {idUsuario}.");
         }
         else {
-            return BadRequest($"(!) No se encontraron tareas asignadas al usuario ID {idUsuario}.");
+            return tareas;
         }
 
     }
@@ -92,11 +92,11 @@ public class TareaController : ControllerBase {
 
         List<Tarea> tareas = tareaRepository.GetByTableroId(idTablero);
 
-        if(tareas != null) {
-            return tareas;
+        if(tareas == null) {
+            return BadRequest($"(!) No se encontraron tareas asignadas al tablero ID {idTablero}");
         }
         else {
-            return BadRequest($"(!) No se encontraron tareas asignadas al tablero ID {idTablero}");
+            return tareas;
         }
 
     }

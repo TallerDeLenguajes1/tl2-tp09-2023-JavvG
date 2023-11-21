@@ -33,7 +33,7 @@ public class TareaRepository : ITareaRepository {
 
     public Tarea Create(int idTablero, Tarea tarea) {
 
-        var query = @"INSERT INTO tablero (id_tablero, nombre, estado, descripcion, color, id_usuario_asignado) VALUES (@id_tablero, @nombre, @estado, @descripcion, @color, @id_usuario_asignado);";
+        var query = @"INSERT INTO tarea (id_tablero, nombre, estado, descripcion, color, id_usuario_asignado) VALUES (@id_tablero, @nombre, @estado, @descripcion, @color, @id_usuario_asignado);";
 
         using (var connection = new SQLiteConnection(connectionString)) {
 
@@ -265,7 +265,7 @@ public class TareaRepository : ITareaRepository {
 
     public void Update(int id, Tarea tarea) {
         
-        var query = @"UPDATE Tarea SET id_tablero = @nuevo_id_talero, nombre = @nuevo_nombre, estado = @nuevo_estado, descripcion = @nueva_descripcion, color = @nuevo_color, id_usuario_asignado = @nuevo_id_usuario;";
+        var query = @"UPDATE Tarea SET id_tablero = @nuevo_id_talero, nombre = @nuevo_nombre, estado = @nuevo_estado, descripcion = @nueva_descripcion, color = @nuevo_color, id_usuario_asignado = @nuevo_id_usuario WHERE id = @id_tarea;";
 
         using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
 
@@ -279,6 +279,7 @@ public class TareaRepository : ITareaRepository {
             command.Parameters.Add(new SQLiteParameter("@nueva_descripcion", tarea.Descripcion));
             command.Parameters.Add(new SQLiteParameter("@nuevo_color", tarea.Color));
             command.Parameters.Add(new SQLiteParameter("@nuevo_id_usuario", tarea.IdUsuarioAsignado));
+            command.Parameters.Add(new SQLiteParameter("@id_tarea", id));
 
             command.ExecuteNonQuery();
 
