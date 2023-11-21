@@ -31,13 +31,34 @@ public class TareaRepository : ITareaRepository {
 
     }
 
-    public Tarea Create(int idTablero) {
+    public Tarea Create(int idTablero, Tarea tarea) {
 
-        //implementar
+        var query = @"INSERT INTO tablero (id_tablero, nombre, estado, descripcion, color, id_usuario_asignado) VALUES (@id_tablero, @nombre, @estado, @descripcion, @color, @id_usuario_asignado);";
+
+        using (var connection = new SQLiteConnection(connectionString)) {
+
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@id_tablero", idTablero));
+            command.Parameters.Add(new SQLiteParameter("@nombre", tarea.Nombre));
+            command.Parameters.Add(new SQLiteParameter("@estado", tarea.Estado));
+            command.Parameters.Add(new SQLiteParameter("@descripcion", tarea.Descripcion));
+            command.Parameters.Add(new SQLiteParameter("@color", tarea.Color));
+            command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", tarea.IdUsuarioAsignado));
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
+
+        return tarea;
 
     }
 
-    public List<Tarea> GetAll(int idTablero) {
+    public List<Tarea> GetAll() {
         
         List<Tarea> tareas = new();
 
@@ -53,12 +74,65 @@ public class TareaRepository : ITareaRepository {
 
                 while (reader.Read()) {
 
-                    var tarea = new();
+                    var tarea = new Tarea();
 
                     tarea.Id = Convert.ToInt32(reader["id"]);
-                    tarea.idTablero = Convert.ToInt32(reader["id_tablero"]);
+                    tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
                     tarea.Nombre = reader["nombre"].ToString();
-                    tarea.Estado = reader["estado"];        // Revisar (!)
+
+                    var read = reader["estado"].ToString();
+                    EstadoTarea estado;
+                    if(Enum.TryParse(read, out estado)) {
+                        tarea.Estado = estado;
+                    }
+
+                    tarea.Descripcion = reader["descripcion"].ToString();
+                    tarea.Color = reader["color"].ToString();
+                    tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+
+                    tareas.Add(tarea);
+
+                }
+
+            }
+
+            connection.Close();
+
+        }
+
+        return tareas;
+    }
+
+    public List<Tarea> GetByTableroId(int idTablero) {
+        
+        List<Tarea> tareas = new();
+
+        var query = @"SELECT * FROM Tarea WHERE id_tablero = @id_tablero;";
+
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
+
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@id_tablero", idTablero));
+
+            using (var reader = command.ExecuteReader()) {
+
+                while (reader.Read()) {
+
+                    var tarea = new Tarea();
+
+                    tarea.Id = Convert.ToInt32(reader["id"]);
+                    tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                    tarea.Nombre = reader["nombre"].ToString();
+
+                    var read = reader["estado"].ToString();
+                    EstadoTarea estado;
+                    if(Enum.TryParse(read, out estado)) {
+                        tarea.Estado = estado;
+                    }
+
                     tarea.Descripcion = reader["descripcion"].ToString();
                     tarea.Color = reader["color"].ToString();
                     tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
@@ -79,25 +153,93 @@ public class TareaRepository : ITareaRepository {
 
     public Tarea GetById(int id) {
         
-        List<Tarea> tareas = new();
+        Tarea tarea = new();
 
-        tareas = GetAll();
+        var query = @"SELECT * FROM Tarea WHERE id = @id_tarea;";
 
-        var tareaBuscada = tareas.FirstOrDefault(T => T.Id == id);
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
 
-        return tareaBuscada;
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@id_tarea", id));
+
+            using (var reader = command.ExecuteReader()) {
+
+                while (reader.Read()) {
+
+                    tarea.Id = Convert.ToInt32(reader["id"]);
+                    tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                    tarea.Nombre = reader["nombre"].ToString();
+
+                    var read = reader["estado"].ToString();
+                    EstadoTarea estado;
+                    if(Enum.TryParse(read, out estado)) {
+                        tarea.Estado = estado;
+                    }
+
+                    tarea.Descripcion = reader["descripcion"].ToString();
+                    tarea.Color = reader["color"].ToString();
+                    tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+
+                }
+
+            }
+
+            connection.Close();
+
+        }
+
+        return tarea;
 
     }
 
     public List<Tarea> GetByUsuarioId(int idUsuario) {
-        
+
         List<Tarea> tareas = new();
 
-        tareas = GetAll();
+        var query = @"SELECT * FROM Tarea  WHERE id_usuario_asignado = @id_usuario;";
 
-        var tareaBuscada = tareas.FirstOrDefault(T.IdUsuarioAsignado == id);
+        using (SQLiteConnection connection = new SQLiteConnection(connectionString)) {
 
-        return tareaBuscada;
+            connection.Open();
+
+            var command = new SQLiteCommand(query, connection);
+
+            command.Parameters.Add(new SQLiteParameter("@id_usuario", idUsuario));
+
+            using (var reader = command.ExecuteReader()) {
+
+                while (reader.Read()) {
+
+                    var tarea = new Tarea();
+
+                    tarea.Id = Convert.ToInt32(reader["id"]);
+                    tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                    tarea.Nombre = reader["nombre"].ToString();
+
+                    var read = reader["estado"].ToString();
+                    EstadoTarea estado;
+                    if(Enum.TryParse(read, out estado)) {
+                        tarea.Estado = estado;
+                    }
+
+                    tarea.Descripcion = reader["descripcion"].ToString();
+                    tarea.Color = reader["color"].ToString();
+                    tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+
+                    tareas.Add(tarea);
+
+                }
+
+            }
+
+            connection.Close();
+
+        }
+
+        return tareas;
 
     }
 

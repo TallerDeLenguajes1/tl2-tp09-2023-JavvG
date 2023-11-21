@@ -19,16 +19,14 @@ public class UsuarioController : ControllerBase {
 
     // Endpoints
     
-    [HttpPost("api/usuario/agregar")]
+    [HttpPost("api/CrearUsuario")]
     public ActionResult Create(Usuario user) {
-
         usuarioRepository.Create(user);
         return Ok("EL usuario se ha creado exitosamente.");
-
     }
 
-    [HttpPut("api/usuario/{idUser}/nombre")] 
-    public ActionResult Update(int idUser, Usuario user) {
+    [HttpPut("api/usuario/{idUser}/CambiarNombre")] 
+    public ActionResult<Usuario> Update(int idUser, Usuario user) {
 
         usuarioRepository.Update(idUser, user);
 
@@ -41,7 +39,7 @@ public class UsuarioController : ControllerBase {
 
     }
 
-    [HttpGet("api/usuario/mostrar")]
+    [HttpGet("api/ListarUsuarios")]
     public ActionResult<IEnumerable<Usuario>> GetAll() {
 
         var usersList = usuarioRepository.GetAll();
@@ -55,7 +53,7 @@ public class UsuarioController : ControllerBase {
 
     }
 
-    [HttpGet("api/usuario/{idUser}")]
+    [HttpGet("api/Usuario/{idUser}")]
     public ActionResult<Usuario> GetById(int idUser) {
 
         Usuario user = usuarioRepository.GetById(idUser);

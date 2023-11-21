@@ -19,13 +19,13 @@ public class TableroController : ControllerBase {
 
     // Endpoints
 
-    [HttpPost("api/Tablero")]
-    public ActionResult Create(Tablero tablero) {
+    [HttpPost("api/CrearTablero")]
+    public ActionResult<Tablero> Create(Tablero tablero) {
         tableroRepository.Create(tablero);
         return Ok("El tablero se ha creado exitosamente");
     }
 
-    [HttpPost("api/tableros")]
+    [HttpPost("api/ListarTableros")]
     public ActionResult<IEnumerable<Tablero>> GetAll() {
         var tablerosList = tableroRepository.GetAll();
 
